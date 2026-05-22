@@ -360,7 +360,11 @@ async function loadRanking() {
         <div class="rank-time">${formatTime(r.seconds)}</div>
       </div>`).join('');
   } catch(e) {
-    list.innerHTML = '<div class="ranking-empty">Erro ao carregar. Verifique a configuração do Firebase.</div>';
+    console.error('Firebase ranking error:', e);
+    const msg = e.code === 'PERMISSION_DENIED'
+      ? 'Permissão negada — ajuste as regras no Firebase Console.<br><small>Realtime Database → Regras → ".read": true</small>'
+      : `Erro: ${e.message || 'Verifique a configuração do Firebase.'}`;
+    list.innerHTML = `<div class="ranking-empty">${msg}</div>`;
   }
 }
 
