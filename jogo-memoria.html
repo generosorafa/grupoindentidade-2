@@ -511,23 +511,35 @@ async function endGame(){
     // Save to Firebase
     if(window._firebaseReady){
       try {
+        document.getElementById('winSaving').textContent = '⏳ Salvando no ranking...';
         await window._fbSaveScore(name, seconds, totalMoves);
+        // Wait a moment for Firebase to propagate
+        await new Promise(r => setTimeout(r, 800));
         // Check position
-        const rows=await window._fbLoadRanking();
-        const pos=rows.findIndex(r=>r.name===name&&r.seconds===seconds)+1;
-        const rp=document.getElementById('winRankPreview');
-        if(pos===1){
-          rp.innerHTML=`🥇 Novo recorde! Você está em <em>1º lugar</em> no ranking!`;
-        } else if(pos>0){
-          rp.innerHTML=`Você ficou em <em>${pos}º lugar</em> no ranking global!`;
+        const rows = await window._fbLoadRanking();
+        // Find best score for this player
+        const myScores = rows.filter(r => r.name === name && r.seconds === seconds);
+        const pos = rows.findIndex(r => r.name === name && r.seconds === seconds) + 1;
+        const rp = document.getElementById('winRankPreview');
+        if(pos === 1){
+          rp.innerHTML = `🥇 <strong>NOVO RECORDE!</strong> Você está em 1º lugar no ranking!`;
+        } else if(pos === 2){
+          rp.innerHTML = `🥈 Você está em <em>2º lugar</em> no ranking global!`;
+        } else if(pos === 3){
+          rp.innerHTML = `🥉 Você está em <em>3º lugar</em> no ranking global!`;
+        } else if(pos > 0){
+          rp.innerHTML = `Você ficou em <em>${pos}º lugar</em> no ranking global!`;
+        } else {
+          rp.innerHTML = `✅ Pontuação salva no ranking!`;
         }
-        rp.style.display='block';
-        document.getElementById('winSaving').textContent='✓ Salvo no ranking!';
+        rp.style.display = 'block';
+        document.getElementById('winSaving').textContent = '✓ Salvo no ranking global!';
       } catch(e){
-        document.getElementById('winSaving').textContent='Não foi possível salvar no ranking.';
+        console.error('Firebase save error:', e);
+        document.getElementById('winSaving').textContent = '⚠️ Não foi possível salvar: ' + (e.message || e.code || 'erro desconhecido');
       }
     } else {
-      document.getElementById('winSaving').textContent='Configure o Firebase para salvar no ranking global.';
+      document.getElementById('winSaving').textContent = 'Configure o Firebase para salvar no ranking global.';
     }
 
   } else {
