@@ -73,7 +73,59 @@ body{background:var(--bg);color:var(--text);font-family:var(--ff-body);min-heigh
 .c-green .gc-btn{background:linear-gradient(135deg,var(--green),var(--teal));box-shadow:0 4px 15px rgba(16,185,129,.4)}
 .c-orange .gc-btn{background:linear-gradient(135deg,var(--orange),var(--gold));box-shadow:0 4px 15px rgba(249,115,22,.4)}
 .c-blue .gc-btn{background:linear-gradient(135deg,var(--blue),var(--purple));box-shadow:0 4px 15px rgba(59,130,246,.4)}
-.c-pink .gc-btn{background:linear-gradient(135deg,var(--pink),var(--orange));box-shadow:0 4px 15px rgba(236,72,153,.4)}
+.c-teal .gc-btn{background:linear-gradient(135deg,var(--teal),var(--blue));box-shadow:0 4px 15px rgba(20,184,166,.4)}
+.game-card.c-teal:hover{border-color:rgba(20,184,166,.6);box-shadow:0 12px 35px rgba(20,184,166,.25)}
+
+/* ══ PUZZLE ══ */
+#puzzleScreen .puzzle-wrap{padding:0 1rem 3rem;max-width:700px;margin:0 auto}
+.puzzle-scene-sel{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.7rem;margin-bottom:1.2rem}
+.puzzle-scene-btn{background:var(--bg2);border:2px solid rgba(20,184,166,.2);border-radius:12px;padding:.8rem .6rem;text-align:center;cursor:pointer;transition:all .2s}
+.puzzle-scene-btn:hover,.puzzle-scene-btn.active{border-color:var(--teal);background:rgba(20,184,166,.1)}
+.puzzle-scene-btn.active .psb-name{color:#fff}
+.psb-icon{font-size:1.7rem;display:block;margin-bottom:.3rem}
+.psb-name{font-size:.72rem;font-weight:700;color:var(--text-muted)}
+.puzzle-diff-row{display:flex;gap:.6rem;margin-bottom:1.1rem;align-items:center;flex-wrap:wrap}
+.puzzle-diff-lbl{font-size:.68rem;font-weight:700;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase}
+.puzzle-diff-btn{padding:.4rem 1rem;border-radius:99px;border:2px solid rgba(20,184,166,.25);background:var(--bg2);color:var(--text-muted);font-family:var(--ff-body);font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s}
+.puzzle-diff-btn:hover,.puzzle-diff-btn.active{border-color:var(--teal);color:#fff;background:rgba(20,184,166,.15)}
+.puzzle-start-btn{width:100%;padding:.85rem;border-radius:12px;background:linear-gradient(135deg,var(--teal),var(--blue));color:#fff;border:none;font-family:var(--ff-body);font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;margin-bottom:1rem;letter-spacing:.05em}
+.puzzle-start-btn:hover{transform:scale(1.01);opacity:.92}
+.puzzle-stats{display:flex;gap:1rem;margin-bottom:.8rem;flex-wrap:wrap}
+.puzzle-stat{background:var(--bg2);border:1px solid rgba(20,184,166,.2);border-radius:10px;padding:.6rem 1rem;font-size:.8rem;font-weight:700;color:var(--text-muted);flex:1;min-width:80px;text-align:center}
+.puzzle-stat span{display:block;font-family:'Fredoka One',cursive;font-size:1.4rem;color:var(--teal);line-height:1}
+.puzzle-arena{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
+.puzzle-board-wrap{flex:1;min-width:240px}
+.puzzle-board-lbl{font-size:.65rem;font-weight:700;color:var(--text-dim);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.5rem;text-align:center}
+.puzzle-board{display:grid;border:3px solid rgba(20,184,166,.35);border-radius:10px;overflow:hidden;background:rgba(20,184,166,.05);margin:0 auto}
+.puzzle-cell{border:1px solid rgba(20,184,166,.2);position:relative;transition:background .2s;cursor:pointer}
+.puzzle-cell.drag-over{background:rgba(20,184,166,.25)!important;border-color:var(--teal)}
+.puzzle-cell.correct-piece{pointer-events:none}
+.puzzle-cell.correct-piece::after{content:'';position:absolute;inset:0;border:2px solid rgba(16,185,129,.6);pointer-events:none}
+.puzzle-tray-wrap{flex:0 0 auto;width:160px}
+@media(max-width:500px){.puzzle-tray-wrap{width:100%;display:grid;grid-template-columns:repeat(4,1fr);gap:.3rem}.puzzle-tray-wrap .puzzle-board-lbl{grid-column:1/-1}}
+.puzzle-tray{display:flex;flex-direction:column;gap:.4rem}
+@media(max-width:500px){.puzzle-tray{display:contents}}
+.puzzle-piece{border-radius:6px;cursor:grab;border:2px solid rgba(20,184,166,.3);transition:all .15s;overflow:hidden;position:relative;background:#fff}
+.puzzle-piece:hover{transform:scale(1.04);border-color:var(--teal);box-shadow:0 4px 12px rgba(20,184,166,.3)}
+.puzzle-piece.dragging{opacity:.5;transform:scale(.95);cursor:grabbing}
+.puzzle-piece.placed{display:none}
+.puzzle-preview{border:3px solid rgba(245,158,11,.4);border-radius:10px;overflow:hidden;margin-bottom:.7rem}
+.puzzle-preview svg{width:100%;display:block}
+.puzzle-hint{font-size:.7rem;color:var(--text-dim);font-weight:600;text-align:center;margin-top:.5rem}
+.puzzle-win-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:200;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem}
+.puzzle-win-overlay.show{display:flex}
+.pw-icon{font-size:5rem;animation:pop .5s .1s both;margin-bottom:1rem}
+.pw-title{font-family:'Fredoka One',cursive;font-size:clamp(2rem,6vw,3.5rem);color:#fff;margin-bottom:.4rem}
+.pw-title em{color:var(--gold-light);font-style:normal}
+.pw-stats{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin:1.2rem 0 1.8rem}
+.pw-stat{background:var(--bg2);border:2px solid rgba(20,184,166,.3);border-radius:12px;padding:1rem 1.4rem;text-align:center;min-width:100px}
+.pw-stat-num{font-family:'Fredoka One',cursive;font-size:2.2rem;color:var(--teal);line-height:1}
+.pw-stat-lbl{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-top:.2rem}
+.pw-btns{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center}
+.pw-btn-again{padding:.85rem 1.8rem;border-radius:99px;background:linear-gradient(135deg,var(--teal),var(--blue));color:#fff;border:none;font-family:var(--ff-body);font-size:.88rem;font-weight:700;cursor:pointer;transition:all .2s;text-transform:uppercase}
+.pw-btn-again:hover{transform:scale(1.05)}
+.pw-btn-home{padding:.85rem 1.8rem;border-radius:99px;background:transparent;color:var(--text-muted);border:2px solid rgba(20,184,166,.3);font-family:var(--ff-body);font-size:.88rem;font-weight:700;cursor:pointer;transition:all .2s;text-transform:uppercase}
+.pw-btn-home:hover{border-color:var(--teal);color:var(--teal)}
 
 /* SHARED GAME HEADER */
 .game-header{display:flex;align-items:center;gap:1rem;padding:1.2rem 1.5rem .5rem;flex-wrap:wrap}
@@ -262,6 +314,12 @@ body{background:var(--bg);color:var(--text);font-family:var(--ff-body);min-heigh
       <p class="game-card-desc">Pinte cenas bíblicas com as suas cores!</p>
       <button class="gc-btn">Colorir!</button>
     </div>
+    <div class="game-card c-teal" onclick="startPuzzle()">
+      <span class="game-card-icon">🧩</span>
+      <h2 class="game-card-title">Quebra-cabeça</h2>
+      <p class="game-card-desc">Monte cenas bíblicas arrastando as peças!</p>
+      <button class="gc-btn">Montar!</button>
+    </div>
   </div>
 </div>
 
@@ -349,6 +407,63 @@ body{background:var(--bg);color:var(--text);font-family:var(--ff-body);min-heigh
     <div class="color-palette" id="colorPalette"></div>
     <div id="svgContainer"></div>
     <p class="colorir-tip">🖌️ Escolha uma cor e clique nas partes do desenho para pintar!</p>
+  </div>
+</div>
+
+<!-- ═══ QUEBRA-CABEÇA ═══ -->
+<div class="screen" id="puzzleScreen">
+  <div class="game-header">
+    <button class="back-btn" onclick="goHome()"><svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg>Voltar</button>
+    <div class="game-title-bar">🧩 Quebra-cabeça</div>
+    <div class="stars-badge" style="border-color:rgba(20,184,166,.3);background:rgba(20,184,166,.08)">⏱️ <span id="pzTimer">00:00</span></div>
+  </div>
+  <div class="puzzle-wrap">
+    <!-- SETUP -->
+    <div id="pzSetup">
+      <div class="puzzle-scene-sel" id="pzSceneSel"></div>
+      <div class="puzzle-diff-row">
+        <span class="puzzle-diff-lbl">Dificuldade:</span>
+        <button class="puzzle-diff-btn active" onclick="setPzDiff(3,this)">😊 Fácil (3×3)</button>
+        <button class="puzzle-diff-btn" onclick="setPzDiff(4,this)">🤔 Médio (4×4)</button>
+        <button class="puzzle-diff-btn" onclick="setPzDiff(5,this)">🔥 Difícil (5×5)</button>
+      </div>
+      <button class="puzzle-start-btn" onclick="launchPuzzle()">🧩 Montar agora!</button>
+    </div>
+    <!-- GAME -->
+    <div id="pzGame" style="display:none">
+      <div class="puzzle-stats">
+        <div class="puzzle-stat"><span id="pzMoves">0</span>Movimentos</div>
+        <div class="puzzle-stat"><span id="pzLeft">0</span>Restando</div>
+        <div class="puzzle-stat"><span id="pzGameTimer">00:00</span>Tempo</div>
+      </div>
+      <div class="puzzle-arena">
+        <div class="puzzle-board-wrap">
+          <div class="puzzle-board-lbl">Monte aqui 👇</div>
+          <div class="puzzle-board" id="pzBoard"></div>
+          <p class="puzzle-hint">Arraste as peças da lateral para o lugar certo!</p>
+        </div>
+        <div class="puzzle-tray-wrap">
+          <div class="puzzle-board-lbl">Peças 🧩</div>
+          <div class="puzzle-tray" id="pzTray"></div>
+          <div class="puzzle-preview" id="pzPreview" style="margin-top:.7rem"></div>
+          <button onclick="togglePreview()" style="width:100%;margin-top:.3rem;padding:.4rem;border-radius:8px;border:1px solid rgba(245,158,11,.3);background:rgba(245,158,11,.08);color:var(--gold-light);font-family:var(--ff-body);font-size:.7rem;font-weight:700;cursor:pointer">👁️ Ver imagem completa</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- WIN OVERLAY -->
+  <div class="puzzle-win-overlay" id="pzWin">
+    <div class="pw-icon">🧩</div>
+    <div class="pw-title">Parabéns! <em>Você montou!</em></div>
+    <div class="pw-stats">
+      <div class="pw-stat"><div class="pw-stat-num" id="pwTime">--</div><div class="pw-stat-lbl">Tempo</div></div>
+      <div class="pw-stat"><div class="pw-stat-num" id="pwMoves">--</div><div class="pw-stat-lbl">Movimentos</div></div>
+      <div class="pw-stat"><div class="pw-stat-num" id="pwStars">⭐⭐⭐</div><div class="pw-stat-lbl">Estrelas</div></div>
+    </div>
+    <div class="pw-btns">
+      <button class="pw-btn-again" onclick="launchPuzzle()">🔀 Jogar de novo</button>
+      <button class="pw-btn-home" onclick="closePzWin()">🏠 Início</button>
+    </div>
   </div>
 </div>
 
@@ -977,6 +1092,335 @@ function showResult(type,ok,tot,stars,replayFn){
   for(let i=0;i<5;i++){const s=document.createElement('span');s.textContent=i<full?'⭐':'☆';s.style.animationDelay=`${i*.12}s`;starsEl.appendChild(s);}
   document.getElementById('rAgain').onclick=replayFn;
   if(pct===1)setTimeout(()=>confetti(60),300);
+}
+
+// ═══════════════════════════════════
+// QUEBRA-CABEÇA
+// ═══════════════════════════════════
+const PZ_SCENES=[
+  {id:'noe',name:'Arca de Noé',icon:'🚢',color:'#29B6F6',
+   viewBox:'0 0 400 280',
+   bg:'#B3E5FC',
+   elements:[
+    {tag:'rect',a:{x:0,y:0,width:400,height:280,fill:'#B3E5FC'}},
+    {tag:'path',a:{d:'M0 185 Q80 170 160 185 Q240 200 320 185 Q360 175 400 185 L400 280 L0 280 Z',fill:'#29B6F6',stroke:'#0288D1','stroke-width':2}},
+    {tag:'path',a:{d:'M60 185 L60 230 Q200 252 340 230 L340 185 Z',fill:'#8D6E63',stroke:'#5D4037','stroke-width':2.5}},
+    {tag:'rect',a:{x:65,y:175,width:270,height:14,rx:3,fill:'#A1887F',stroke:'#6D4C41','stroke-width':2}},
+    {tag:'rect',a:{x:120,y:130,width:160,height:50,rx:4,fill:'#BCAAA4',stroke:'#795548','stroke-width':2}},
+    {tag:'path',a:{d:'M110 132 L200 100 L290 132 Z',fill:'#8D6E63',stroke:'#5D4037','stroke-width':2}},
+    {tag:'circle',a:{cx:160,cy:152,r:12,fill:'#B3E5FC',stroke:'#795548','stroke-width':2}},
+    {tag:'circle',a:{cx:200,cy:152,r:12,fill:'#B3E5FC',stroke:'#795548','stroke-width':2}},
+    {tag:'circle',a:{cx:240,cy:152,r:12,fill:'#B3E5FC',stroke:'#795548','stroke-width':2}},
+    {tag:'ellipse',a:{cx:80,cy:165,rx:18,ry:13,fill:'#90A4AE',stroke:'#607D8B','stroke-width':2}},
+    {tag:'circle',a:{cx:77,cy:156,r:9,fill:'#90A4AE',stroke:'#607D8B','stroke-width':2}},
+    {tag:'path',a:{d:'M74 163 Q64 170 66 178',fill:'none',stroke:'#607D8B','stroke-width':3,'stroke-linecap':'round'}},
+    {tag:'path',a:{d:'M295 138 Q300 118 308 105 Q312 96 310 88 Q316 96 314 110 Q315 122 320 138',fill:'#FFD54F',stroke:'#FF8F00','stroke-width':2}},
+    {tag:'ellipse',a:{cx:308,cy:86,rx:8,ry:10,fill:'#FFD54F',stroke:'#FF8F00','stroke-width':2}},
+    {tag:'ellipse',a:{cx:100,cy:42,rx:55,ry:26,fill:'#78909C',stroke:'#546E7A','stroke-width':1.5}},
+    {tag:'ellipse',a:{cx:300,cy:38,rx:60,ry:24,fill:'#78909C',stroke:'#546E7A','stroke-width':1.5}},
+    {tag:'path',a:{d:'M0 180 Q200 60 400 180',fill:'none',stroke:'#EF5350','stroke-width':5,opacity:.55}},
+    {tag:'path',a:{d:'M5 188 Q200 75 395 188',fill:'none',stroke:'#FFEB3B','stroke-width':4,opacity:.55}},
+    {tag:'path',a:{d:'M12 196 Q200 90 388 196',fill:'none',stroke:'#66BB6A','stroke-width':4,opacity:.55}},
+   ]},
+  {id:'davi',name:'Davi e Golias',icon:'🪨',color:'#EF5350',
+   viewBox:'0 0 400 280',
+   bg:'#FFF8E1',
+   elements:[
+    {tag:'rect',a:{x:0,y:0,width:400,height:280,fill:'#FFF8E1'}},
+    {tag:'circle',a:{cx:340,cy:55,r:40,fill:'#FFEE58',stroke:'#FDD835','stroke-width':2}},
+    {tag:'path',a:{d:'M0 220 Q100 205 200 220 Q300 235 400 220 L400 280 L0 280 Z',fill:'#8D6E63',stroke:'#6D4C41','stroke-width':1}},
+    {tag:'path',a:{d:'M0 215 Q100 200 200 215 Q300 230 400 215 L400 222 L0 222 Z',fill:'#A5D6A7'}},
+    // GOLIATH
+    {tag:'rect',a:{x:260,y:80,width:60,height:140,rx:8,fill:'#78909C',stroke:'#546E7A','stroke-width':2}},
+    {tag:'circle',a:{cx:290,cy:70,r:28,fill:'#FFCC80',stroke:'#FF8F00','stroke-width':2}},
+    {tag:'rect',a:{x:265,y:50,width:50,height:22,rx:3,fill:'#78909C',stroke:'#546E7A','stroke-width':1.5}},
+    {tag:'path',a:{d:'M320 100 L355 90 L360 110 L325 118 Z',fill:'#9E9E9E',stroke:'#616161','stroke-width':1.5}},
+    // DAVID
+    {tag:'path',a:{d:'M88 185 Q83 205 78 222 L108 222 Q104 205 100 185 Z',fill:'#FFCCBC',stroke:'#FF8A65','stroke-width':1.5}},
+    {tag:'circle',a:{cx:95,cy:174,r:16,fill:'#FFCC80',stroke:'#FF8F00','stroke-width':2}},
+    {tag:'path',a:{d:'M85 170 Q88 160 95 159 Q102 160 105 168 Q101 163 95 163 Q89 163 85 170 Z',fill:'#8D6E63',stroke:'#6D4C41','stroke-width':1}},
+    {tag:'path',a:{d:'M78 185 Q60 180 55 170',fill:'none',stroke:'#FFCCBC','stroke-width':8,'stroke-linecap':'round'}},
+    // SLING + STONE
+    {tag:'circle',a:{cx:170,cy:120,r:8,fill:'#9E9E9E',stroke:'#616161','stroke-width':1.5}},
+    {tag:'path',a:{d:'M55 170 Q110 140 162 120',fill:'none',stroke:'#8D6E63','stroke-width':2,'stroke-dasharray':'4 3'}},
+    // MOUNTAINS
+    {tag:'path',a:{d:'M0 220 Q60 160 130 220',fill:'#A5D6A7',stroke:'#66BB6A','stroke-width':1}},
+    {tag:'path',a:{d:'M200 220 Q270 150 350 220',fill:'#81C784',stroke:'#66BB6A','stroke-width':1}},
+   ]},
+  {id:'jonas',name:'Jonas e o Peixe',icon:'🐳',color:'#1E88E5',
+   viewBox:'0 0 400 280',
+   bg:'#E3F2FD',
+   elements:[
+    {tag:'rect',a:{x:0,y:0,width:400,height:280,fill:'#E3F2FD'}},
+    {tag:'ellipse',a:{cx:200,cy:150,rx:195,ry:110,fill:'#1565C0',opacity:.85}},
+    {tag:'ellipse',a:{cx:200,cy:135,rx:170,ry:90,fill:'#1976D2',opacity:.9}},
+    // FISH BODY
+    {tag:'ellipse',a:{cx:195,cy:148,rx:130,ry:70,fill:'#26C6DA',stroke:'#00ACC1','stroke-width':2.5}},
+    // TAIL
+    {tag:'path',a:{d:'M322 148 Q355 110 375 90 Q365 148 375 208 Q355 188 322 148 Z',fill:'#00BCD4',stroke:'#00ACC1','stroke-width':2}},
+    // BELLY
+    {tag:'ellipse',a:{cx:190,cy:163,rx:95,ry:40,fill:'#E0F7FA',opacity:.6}},
+    // FINS
+    {tag:'path',a:{d:'M175 78 Q190 55 210 78',fill:'#00BCD4',stroke:'#00ACC1','stroke-width':2}},
+    {tag:'path',a:{d:'M150 195 Q140 215 170 210',fill:'#00BCD4',stroke:'#00ACC1','stroke-width':2}},
+    // EYE
+    {tag:'circle',a:{cx:88,cy:128,r:18,fill:'#fff',stroke:'#00ACC1','stroke-width':2}},
+    {tag:'circle',a:{cx:88,cy:128,r:11,fill:'#1565C0'}},
+    {tag:'circle',a:{cx:92,cy:124,r:4,fill:'#fff'}},
+    // MOUTH
+    {tag:'path',a:{d:'M68 148 Q60 168 68 185',fill:'none',stroke:'#00838F','stroke-width':3,'stroke-linecap':'round'}},
+    // JONAS (silhouette inside)
+    {tag:'ellipse',a:{cx:200,cy:148,rx:22,ry:30,fill:'#FFCC80',stroke:'#FF8F00','stroke-width':1.5,opacity:.8}},
+    {tag:'circle',a:{cx:200,cy:120,r:11,fill:'#FFCC80',stroke:'#FF8F00','stroke-width':1.5,opacity:.8}},
+    // WAVES
+    {tag:'path',a:{d:'M10 240 Q50 230 90 240 Q130 250 170 240 Q210 230 250 240 Q290 250 330 240 Q360 232 390 240',fill:'none',stroke:'#0288D1','stroke-width':2.5,opacity:.7}},
+    {tag:'path',a:{d:'M0 260 Q50 250 100 260 Q150 270 200 260 Q250 250 300 260 Q350 270 400 260',fill:'none',stroke:'#0288D1','stroke-width':2,opacity:.5}},
+    // BOAT ON TOP
+    {tag:'path',a:{d:'M130 65 Q200 45 270 65 Q270 80 200 85 Q130 80 130 65 Z',fill:'#8D6E63',stroke:'#5D4037','stroke-width':2}},
+    {tag:'rect',a:{x:190,y:40,width:5,height:28,fill:'#5D4037'}},
+    {tag:'path',a:{d:'M195 42 L215 52 L195 62 Z',fill:'#FFEB3B',stroke:'#F9A825','stroke-width':1}},
+   ]},
+  {id:'natal',name:'Nascimento de Jesus',icon:'⭐',color:'#7B1FA2',
+   viewBox:'0 0 400 280',
+   bg:'#1A237E',
+   elements:[
+    {tag:'rect',a:{x:0,y:0,width:400,height:280,fill:'#1A237E'}},
+    // STARS
+    {tag:'circle',a:{cx:30,cy:30,r:2,fill:'#E8EAF6'}},
+    {tag:'circle',a:{cx:70,cy:20,r:1.5,fill:'#E8EAF6'}},
+    {tag:'circle',a:{cx:120,cy:35,r:2,fill:'#E8EAF6'}},
+    {tag:'circle',a:{cx:170,cy:18,r:1.5,fill:'#E8EAF6'}},
+    {tag:'circle',a:{cx:300,cy:25,r:2,fill:'#E8EAF6'}},
+    {tag:'circle',a:{cx:350,cy:15,r:1.5,fill:'#E8EAF6'}},
+    {tag:'circle',a:{cx:380,cy:40,r:2,fill:'#E8EAF6'}},
+    {tag:'circle',a:{cx:50,cy:80,r:1.5,fill:'#E8EAF6'}},
+    {tag:'circle',a:{cx:380,cy:90,r:2,fill:'#E8EAF6'}},
+    // BIG STAR
+    {tag:'polygon',a:{points:'200,8 208,32 232,32 213,46 220,70 200,56 180,70 187,46 168,32 192,32',fill:'#FFF176',stroke:'#FDD835','stroke-width':1.5}},
+    {tag:'circle',a:{cx:200,cy:40,r:40,fill:'#FFF176',opacity:.07}},
+    // HILLS
+    {tag:'path',a:{d:'M230 225 Q300 165 400 195 L400 225 Z',fill:'#2E7D32'}},
+    {tag:'path',a:{d:'M0 205 Q80 150 185 215 L0 225 Z',fill:'#388E3C'}},
+    // GROUND
+    {tag:'path',a:{d:'M0 218 Q100 208 200 218 Q300 228 400 218 L400 280 L0 280 Z',fill:'#33691E'}},
+    // STABLE ROOF
+    {tag:'path',a:{d:'M120 200 L200 160 L280 200 Z',fill:'#8D6E63',stroke:'#5D4037','stroke-width':2}},
+    {tag:'rect',a:{x:130,y:198,width:140,height:30,fill:'#A1887F',stroke:'#6D4C41','stroke-width':2}},
+    // DOOR
+    {tag:'path',a:{d:'M178 228 L178 208 Q200 200 222 208 L222 228 Z',fill:'#6D4C41',stroke:'#4E342E','stroke-width':1.5}},
+    // MANGER + BABY
+    {tag:'rect',a:{x:170,y:212,width:22,height:12,rx:3,fill:'#FF8F00',stroke:'#E65100','stroke-width':1.5}},
+    {tag:'ellipse',a:{cx:181,cy:213,rx:9,ry:6,fill:'#FFCCBC',stroke:'#FF8A65','stroke-width':1.5}},
+    {tag:'circle',a:{cx:181,cy:208,r:5,fill:'#FFCC80',stroke:'#FF8F00','stroke-width':1}},
+    // MARY
+    {tag:'path',a:{d:'M142 228 Q139 212 144 198 Q154 196 158 203 Q156 216 154 228 Z',fill:'#1565C0',stroke:'#0D47A1','stroke-width':1.5}},
+    {tag:'circle',a:{cx:151,cy:195,r:9,fill:'#FFCC80',stroke:'#FF8F00','stroke-width':1.5}},
+    // JOSEPH
+    {tag:'path',a:{d:'M224 228 Q221 212 226 198 Q236 196 240 203 Q238 216 237 228 Z',fill:'#4CAF50',stroke:'#2E7D32','stroke-width':1.5}},
+    {tag:'circle',a:{cx:233,cy:195,r:9,fill:'#FFCC80',stroke:'#FF8F00','stroke-width':1.5}},
+    // STAR BEAM
+    {tag:'line',a:{x1:200,y1:70,x2:200,y2:162,stroke:'#FFF176','stroke-width':2,'stroke-dasharray':'5 4',opacity:.5}},
+   ]},
+];
+
+let pzSceneIdx=0, pzGridSize=3, pzMoveCount=0, pzTimerInterval=null, pzSeconds=0, pzPlaced=0, pzDragSrcIdx=null, pzCellCorrect=[], previewVisible=true;
+
+function startPuzzle(){
+  showScreen('puzzleScreen');
+  // Build scene selector
+  const sel=document.getElementById('pzSceneSel');
+  sel.innerHTML=PZ_SCENES.map((s,i)=>`<div class="puzzle-scene-btn ${i===0?'active':''}" onclick="selectPzScene(${i},this)"><span class="psb-icon">${s.icon}</span><div class="psb-name">${s.name}</div></div>`).join('');
+  pzSceneIdx=0;
+  document.getElementById('pzSetup').style.display='block';
+  document.getElementById('pzGame').style.display='none';
+}
+
+function selectPzScene(i,el){
+  pzSceneIdx=i;
+  document.querySelectorAll('.puzzle-scene-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function setPzDiff(size,el){
+  pzGridSize=size;
+  document.querySelectorAll('.puzzle-diff-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function buildSceneSVG(scene, w, h, clipId, row, col, total){
+  const ns='http://www.w3.org/2000/svg';
+  const svg=document.createElementNS(ns,'svg');
+  const [vx,vy,vw,vh]=scene.viewBox.split(' ').map(Number);
+  // Scale to fit cell
+  const scaleX=w*total/vw, scaleY=h*total/vh;
+  const scale=Math.min(scaleX,scaleY);
+  const ox=-col*(vw/total), oy=-row*(vh/total);
+  svg.setAttribute('viewBox',`${-ox} ${-oy} ${vw/total} ${vh/total}`);
+  svg.setAttribute('width',w); svg.setAttribute('height',h);
+  svg.style.display='block';
+  // Draw all elements
+  scene.elements.forEach(el=>{
+    const node=document.createElementNS(ns,el.tag);
+    Object.entries(el.a).forEach(([k,v])=>node.setAttribute(k,v));
+    svg.appendChild(node);
+  });
+  return svg;
+}
+
+function buildFullSVG(scene, w, h){
+  const ns='http://www.w3.org/2000/svg';
+  const svg=document.createElementNS(ns,'svg');
+  svg.setAttribute('viewBox',scene.viewBox);
+  svg.setAttribute('width',w); svg.setAttribute('height',h);
+  svg.style.display='block';
+  scene.elements.forEach(el=>{
+    const node=document.createElementNS(ns,el.tag);
+    Object.entries(el.a).forEach(([k,v])=>node.setAttribute(k,v));
+    svg.appendChild(node);
+  });
+  return svg;
+}
+
+function launchPuzzle(){
+  const scene=PZ_SCENES[pzSceneIdx];
+  pzMoveCount=0; pzSeconds=0; pzPlaced=0;
+  document.getElementById('pzMoves').textContent='0';
+  document.getElementById('pzLeft').textContent=pzGridSize*pzGridSize;
+  document.getElementById('pzGameTimer').textContent='00:00';
+  document.getElementById('pzTimer').textContent='00:00';
+  clearInterval(pzTimerInterval);
+  pzTimerInterval=setInterval(()=>{
+    pzSeconds++;
+    const t=fmtTime(pzSeconds);
+    document.getElementById('pzGameTimer').textContent=t;
+    document.getElementById('pzTimer').textContent=t;
+  },1000);
+
+  document.getElementById('pzSetup').style.display='none';
+  document.getElementById('pzGame').style.display='block';
+  document.getElementById('pzWin').classList.remove('show');
+
+  const total=pzGridSize;
+  const boardEl=document.getElementById('pzBoard');
+  const trayEl=document.getElementById('pzTray');
+  // Figure out cell size based on viewport
+  const maxW=Math.min(window.innerWidth-220, 420);
+  const cellSize=Math.floor(maxW/total);
+  boardEl.style.gridTemplateColumns=`repeat(${total},${cellSize}px)`;
+  boardEl.innerHTML='';
+  trayEl.innerHTML='';
+  pzCellCorrect=Array(total*total).fill(false);
+
+  // Build board cells (empty)
+  for(let r=0;r<total;r++) for(let c=0;c<total;c++){
+    const idx=r*total+c;
+    const cell=document.createElement('div');
+    cell.className='puzzle-cell';
+    cell.style.width=cellSize+'px'; cell.style.height=cellSize+'px';
+    cell.dataset.idx=idx; cell.dataset.r=r; cell.dataset.c=c;
+    cell.addEventListener('dragover',e=>{e.preventDefault();cell.classList.add('drag-over');});
+    cell.addEventListener('dragleave',()=>cell.classList.remove('drag-over'));
+    cell.addEventListener('drop',e=>{e.preventDefault();cell.classList.remove('drag-over');dropOnCell(cell);});
+    // Touch
+    cell.addEventListener('touchend',e=>{e.preventDefault();dropOnCell(cell);},{passive:false});
+    boardEl.appendChild(cell);
+  }
+
+  // Build shuffled pieces for tray
+  const order=shuffle([...Array(total*total).keys()]);
+  order.forEach(idx=>{
+    const r=Math.floor(idx/total), c=idx%total;
+    const piece=document.createElement('div');
+    piece.className='puzzle-piece';
+    piece.dataset.idx=idx; piece.dataset.r=r; piece.dataset.c=c;
+    piece.style.width=cellSize+'px'; piece.style.height=cellSize+'px';
+    piece.draggable=true;
+    const svg=buildSceneSVG(scene,cellSize,cellSize,'',r,c,total);
+    piece.appendChild(svg);
+    piece.addEventListener('dragstart',e=>{pzDragSrcIdx=idx;piece.classList.add('dragging');e.dataTransfer.effectAllowed='move';});
+    piece.addEventListener('dragend',()=>piece.classList.remove('dragging'));
+    // Touch drag
+    piece.addEventListener('touchstart',e=>{pzDragSrcIdx=idx;},{passive:true});
+    trayEl.appendChild(piece);
+  });
+
+  // Preview
+  const prevEl=document.getElementById('pzPreview');
+  prevEl.innerHTML='';
+  const prevSvg=buildFullSVG(scene,140,100);
+  prevEl.appendChild(prevSvg);
+  previewVisible=true;
+}
+
+function dropOnCell(cell){
+  if(pzDragSrcIdx===null) return;
+  const cellIdx=parseInt(cell.dataset.idx);
+  const pieceIdx=pzDragSrcIdx;
+  if(pzCellCorrect[cellIdx]) return; // already correct piece placed
+
+  const total=pzGridSize;
+  const pieceR=Math.floor(pieceIdx/total), pieceC=pieceIdx%total;
+  const cellR=parseInt(cell.dataset.r), cellC=parseInt(cell.dataset.c);
+
+  pzMoveCount++;
+  document.getElementById('pzMoves').textContent=pzMoveCount;
+
+  const isCorrect=(pieceR===cellR && pieceC===cellC);
+
+  // Place visual in cell
+  const scene=PZ_SCENES[pzSceneIdx];
+  const maxW=Math.min(window.innerWidth-220,420);
+  const cellSize=Math.floor(maxW/total);
+  cell.innerHTML='';
+  const svg=buildSceneSVG(scene,cellSize,cellSize,'',pieceR,pieceC,total);
+  cell.appendChild(svg);
+
+  if(isCorrect){
+    cell.classList.add('correct-piece');
+    pzCellCorrect[cellIdx]=true;
+    pzPlaced++;
+    const remaining=total*total-pzPlaced;
+    document.getElementById('pzLeft').textContent=remaining;
+    // Hide piece from tray
+    document.querySelectorAll('.puzzle-piece').forEach(p=>{
+      if(parseInt(p.dataset.idx)===pieceIdx) p.classList.add('placed');
+    });
+    confetti(8);
+    if(pzPlaced===total*total) setTimeout(showPzWin,400);
+  } else {
+    // Wrong — flash red then remove
+    cell.style.background='rgba(239,68,68,.2)';
+    setTimeout(()=>{cell.style.background='';cell.innerHTML='';},600);
+  }
+  pzDragSrcIdx=null;
+}
+
+function togglePreview(){
+  const prev=document.getElementById('pzPreview');
+  previewVisible=!previewVisible;
+  prev.style.display=previewVisible?'block':'none';
+}
+
+function showPzWin(){
+  clearInterval(pzTimerInterval);
+  const t=fmtTime(pzSeconds);
+  const m=pzMoveCount;
+  const total=pzGridSize*pzGridSize;
+  const efficiency=total/m;
+  let stars='⭐';
+  if(efficiency>=.7)stars='⭐⭐⭐';
+  else if(efficiency>=.4)stars='⭐⭐';
+  document.getElementById('pwTime').textContent=t;
+  document.getElementById('pwMoves').textContent=m;
+  document.getElementById('pwStars').textContent=stars;
+  document.getElementById('pzWin').classList.add('show');
+  addStars(stars.length*2);
+  confetti(60);
+}
+
+function closePzWin(){
+  document.getElementById('pzWin').classList.remove('show');
+  goHome();
 }
 
 // INIT
