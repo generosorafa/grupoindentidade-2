@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kids · Identidade Vocal</title>
+<link rel="icon" type="image/png" href="logo3_branco.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --purple:#7C3AED;--purple-light:#A855F7;--purple-dark:#5B21B6;
+  --gold:#F59E0B;--gold-light:#FCD34D;
+  --green:#10B981;--green-light:#34D399;
+  --red:#EF4444;--red-light:#FCA5A5;
+  --blue:#3B82F6;--blue-light:#93C5FD;
+  --pink:#EC4899;--pink-light:#F9A8D4;
+  --bg:#0F0A1E;--bg2:#1A1035;--bg3:#251848;
+  --text:#F0E6FF;--text-muted:#C4B5FD;--text-dim:#7C6FAD;
+  --ff-title:'Fredoka One',cursive;
+  --ff-body:'Nunito',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--ff-body);min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--purple);border-radius:3px}
+
+/* STARS BACKGROUND */
+.stars-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle var(--d,3s) var(--delay,0s) infinite}
+@keyframes twinkle{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:1;transform:scale(1.3)}}
+
+/* TOPBAR */
+.topbar{background:rgba(15,10,30,.95);border-bottom:2px solid rgba(124,58,237,.3);padding:0 1.5rem;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(10px)}
+.topbar-back{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .2s;display:flex;align-items:center;gap:.5rem;font-weight:700}
+.topbar-back:hover{color:var(--purple-light)}
+.topbar-back svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.5}
+.topbar-brand{font-family:var(--ff-title);font-size:1.4rem;color:var(--gold);letter-spacing:.05em;text-shadow:0 0 20px rgba(245,158,11,.4)}
+.topbar-stars{font-size:1rem;color:var(--gold)}
+
+/* HERO */
+.kids-hero{text-align:center;padding:3rem 1.5rem 2rem;position:relative;z-index:1}
+.hero-badge{display:inline-block;background:linear-gradient(135deg,var(--purple),var(--pink));padding:.4rem 1.2rem;border-radius:99px;font-size:.75rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#fff;margin-bottom:1rem;box-shadow:0 4px 15px rgba(124,58,237,.4)}
+.hero-title{font-family:var(--ff-title);font-size:clamp(2.5rem,8vw,5rem);color:#fff;line-height:1;margin-bottom:.5rem;text-shadow:0 4px 20px rgba(0,0,0,.4)}
+.hero-title span{color:var(--gold-light);text-shadow:0 0 30px rgba(252,211,77,.5)}
+.hero-sub{font-size:1rem;color:var(--text-muted);font-weight:600;margin-bottom:2rem}
+
+/* GAME CARDS */
+.game-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;max-width:800px;margin:0 auto;padding:0 1.5rem 4rem;position:relative;z-index:1}
+.game-card{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:2px solid rgba(124,58,237,.25);border-radius:20px;padding:2rem;text-align:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.game-card::before{content:'';position:absolute;inset:0;border-radius:20px;opacity:0;transition:opacity .3s}
+.game-card.quiz-card::before{background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(236,72,153,.15))}
+.game-card.verse-card::before{background:linear-gradient(135deg,rgba(16,185,129,.15),rgba(59,130,246,.15))}
+.game-card:hover{transform:translateY(-6px);border-color:rgba(124,58,237,.6);box-shadow:0 12px 40px rgba(124,58,237,.3)}
+.game-card:hover::before{opacity:1}
+.game-card-icon{font-size:4rem;margin-bottom:1rem;display:block;animation:float 3s ease-in-out infinite}
+.game-card.verse-card .game-card-icon{animation-delay:.5s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.game-card-title{font-family:var(--ff-title);font-size:1.8rem;color:#fff;margin-bottom:.5rem}
+.game-card-desc{font-size:.88rem;color:var(--text-muted);font-weight:600;margin-bottom:1.5rem;line-height:1.5}
+.game-card-btn{display:inline-block;padding:.7rem 2rem;border-radius:99px;font-family:var(--ff-body);font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;border:none;cursor:pointer;transition:all .2s}
+.quiz-card .game-card-btn{background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;box-shadow:0 4px 15px rgba(124,58,237,.4)}
+.quiz-card .game-card-btn:hover{transform:scale(1.05);box-shadow:0 6px 20px rgba(124,58,237,.6)}
+.verse-card .game-card-btn{background:linear-gradient(135deg,var(--green),var(--blue));color:#fff;box-shadow:0 4px 15px rgba(16,185,129,.4)}
+.verse-card .game-card-btn:hover{transform:scale(1.05);box-shadow:0 6px 20px rgba(16,185,129,.6)}
+
+/* ══════════════ QUIZ ══════════════ */
+#quizScreen{display:none;max-width:680px;margin:0 auto;padding:1.5rem 1.5rem 4rem;position:relative;z-index:1}
+.quiz-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.8rem}
+.quiz-progress-wrap{flex:1;min-width:200px}
+.quiz-progress-label{font-size:.72rem;font-weight:700;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem;display:flex;justify-content:space-between}
+.quiz-progress-bar{height:8px;background:var(--bg3);border-radius:99px;overflow:hidden}
+.quiz-progress-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--pink));border-radius:99px;transition:width .4s ease}
+.quiz-stars-display{font-size:1rem;font-weight:700;color:var(--gold);background:rgba(245,158,11,.1);padding:.4rem 1rem;border-radius:99px;border:1px solid rgba(245,158,11,.3);white-space:nowrap}
+.quiz-box{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:2px solid rgba(124,58,237,.2);border-radius:20px;padding:2rem;margin-bottom:1.2rem}
+.quiz-num{font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--purple-light);margin-bottom:.8rem}
+.quiz-question{font-size:1.25rem;font-weight:700;color:#fff;line-height:1.4;margin-bottom:1.5rem}
+.quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.quiz-opt{background:var(--bg);border:2px solid rgba(124,58,237,.2);border-radius:12px;padding:1rem .8rem;text-align:center;cursor:pointer;font-size:.92rem;font-weight:600;color:var(--text-muted);transition:all .2s;position:relative;overflow:hidden}
+.quiz-opt:hover:not(.disabled){border-color:var(--purple-light);color:#fff;background:rgba(124,58,237,.1);transform:scale(1.02)}
+.quiz-opt.correct{border-color:var(--green)!important;background:rgba(16,185,129,.15)!important;color:var(--green-light)!important;animation:correctPop .4s ease}
+.quiz-opt.wrong{border-color:var(--red)!important;background:rgba(239,68,68,.12)!important;color:var(--red-light)!important;animation:wrongShake .4s ease}
+.quiz-opt.disabled{cursor:default;pointer-events:none}
+@keyframes correctPop{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
+@keyframes wrongShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.quiz-feedback{text-align:center;padding:1rem;border-radius:12px;font-size:1rem;font-weight:700;margin-top:.8rem;display:none}
+.quiz-feedback.show{display:block;animation:fadeUp .3s ease}
+.quiz-feedback.correct-fb{background:rgba(16,185,129,.15);color:var(--green-light);border:1px solid rgba(16,185,129,.3)}
+.quiz-feedback.wrong-fb{background:rgba(239,68,68,.12);color:var(--red-light);border:1px solid rgba(239,68,68,.3)}
+.quiz-next-btn{width:100%;padding:1rem;border-radius:12px;background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;border:none;font-family:var(--ff-body);font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s;display:none;margin-top:.8rem}
+.quiz-next-btn.show{display:block;animation:fadeUp .3s ease}
+.quiz-next-btn:hover{transform:scale(1.02);box-shadow:0 6px 20px rgba(124,58,237,.4)}
+
+/* ══════════════ COMPLETE O VERSÍCULO ══════════════ */
+#verseScreen{display:none;max-width:680px;margin:0 auto;padding:1.5rem 1.5rem 4rem;position:relative;z-index:1}
+.verse-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.8rem}
+.verse-box{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:2px solid rgba(16,185,129,.2);border-radius:20px;padding:2rem;margin-bottom:1.2rem}
+.verse-num{font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--green-light);margin-bottom:.8rem}
+.verse-ref{font-size:.8rem;font-weight:700;color:var(--text-dim);margin-bottom:1rem;letter-spacing:.05em}
+.verse-text{font-size:1.2rem;font-weight:700;color:#fff;line-height:1.7;margin-bottom:1.5rem;text-align:center}
+.verse-blank{display:inline-block;background:rgba(16,185,129,.15);border-bottom:3px solid var(--green);padding:.15rem .8rem;border-radius:6px;min-width:100px;color:var(--green-light);font-style:italic;transition:all .3s}
+.verse-blank.filled{background:rgba(16,185,129,.25);color:var(--green-light)}
+.verse-blank.correct-blank{background:rgba(16,185,129,.3);border-color:var(--green-light);color:#fff}
+.verse-blank.wrong-blank{background:rgba(239,68,68,.2);border-color:var(--red);color:var(--red-light);animation:wrongShake .4s ease}
+.verse-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.8rem}
+.verse-opt{background:var(--bg);border:2px solid rgba(16,185,129,.2);border-radius:12px;padding:.9rem;text-align:center;cursor:pointer;font-size:1rem;font-weight:700;color:var(--text-muted);transition:all .2s}
+.verse-opt:hover:not(.disabled){border-color:var(--green);color:#fff;background:rgba(16,185,129,.1);transform:scale(1.04)}
+.verse-opt.correct{border-color:var(--green)!important;background:rgba(16,185,129,.2)!important;color:var(--green-light)!important}
+.verse-opt.wrong{border-color:var(--red)!important;background:rgba(239,68,68,.12)!important;color:var(--red-light)!important}
+.verse-opt.disabled{cursor:default;pointer-events:none;opacity:.5}
+.verse-feedback{text-align:center;padding:1rem;border-radius:12px;font-size:1rem;font-weight:700;margin-top:.8rem;display:none}
+.verse-feedback.show{display:block;animation:fadeUp .3s ease}
+.verse-feedback.correct-fb{background:rgba(16,185,129,.15);color:var(--green-light);border:1px solid rgba(16,185,129,.3)}
+.verse-feedback.wrong-fb{background:rgba(239,68,68,.12);color:var(--red-light);border:1px solid rgba(239,68,68,.3)}
+.verse-next-btn{width:100%;padding:1rem;border-radius:12px;background:linear-gradient(135deg,var(--green),var(--blue));color:#fff;border:none;font-family:var(--ff-body);font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s;display:none;margin-top:.8rem}
+.verse-next-btn.show{display:block;animation:fadeUp .3s ease}
+.verse-next-btn:hover{transform:scale(1.02)}
+
+/* RESULT SCREEN */
+#resultScreen{display:none;max-width:560px;margin:0 auto;padding:2rem 1.5rem 4rem;text-align:center;position:relative;z-index:1}
+.result-icon{font-size:5rem;margin-bottom:1rem;animation:pop .6s .1s both}
+.result-title{font-family:var(--ff-title);font-size:clamp(2rem,6vw,3.5rem);color:#fff;margin-bottom:.5rem}
+.result-sub{font-size:1rem;color:var(--text-muted);font-weight:600;margin-bottom:2rem}
+.stars-earned{display:flex;justify-content:center;gap:.3rem;font-size:2.5rem;margin-bottom:2rem}
+.stars-earned span{animation:starPop .4s both}
+.result-score{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:2px solid rgba(245,158,11,.3);border-radius:20px;padding:2rem;margin-bottom:2rem}
+.result-score-num{font-family:var(--ff-title);font-size:4rem;color:var(--gold-light)}
+.result-score-label{font-size:.85rem;font-weight:700;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;margin-top:.3rem}
+.result-msg{font-size:1.05rem;font-weight:700;color:var(--text-muted);margin-bottom:2rem;line-height:1.6}
+.result-btns{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
+.btn-play-again{padding:.9rem 2rem;border-radius:99px;background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;border:none;font-family:var(--ff-body);font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:.1em}
+.btn-play-again:hover{transform:scale(1.05);box-shadow:0 6px 20px rgba(124,58,237,.4)}
+.btn-back-home{padding:.9rem 2rem;border-radius:99px;background:transparent;color:var(--text-muted);border:2px solid rgba(124,58,237,.3);font-family:var(--ff-body);font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:.1em;text-decoration:none;display:inline-block}
+.btn-back-home:hover{border-color:var(--purple-light);color:var(--purple-light)}
+
+/* CONFETTI */
+.confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;animation:confettiFall 2s ease-in forwards;z-index:300;pointer-events:none}
+@keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+
+/* UTILS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pop{0%{transform:scale(0);opacity:0}80%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+@keyframes starPop{0%{transform:scale(0) rotate(-30deg);opacity:0}70%{transform:scale(1.3) rotate(10deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+.back-btn{background:transparent;border:none;color:var(--text-muted);font-family:var(--ff-body);font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:.4rem;padding:.5rem;transition:color .2s}
+.back-btn:hover{color:var(--purple-light)}
+.back-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.5}
+
+@media(max-width:500px){
+  .quiz-options{grid-template-columns:1fr}
+  .verse-options{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- STARS -->
+<div class="stars-bg" id="starsBg"></div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <a class="topbar-back" href="identidade-vocal.html">
+    <svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg>
+    Voltar
+  </a>
+  <div class="topbar-brand">✨ Kids</div>
+  <div class="topbar-stars" id="topStars">⭐ 0</div>
+</div>
+
+<!-- HOME -->
+<div id="homeScreen">
+  <div class="kids-hero">
+    <div class="hero-badge">🎉 Área Infantil</div>
+    <h1 class="hero-title">Olá, <span>criança!</span> 👋</h1>
+    <p class="hero-sub">Aprenda sobre a Bíblia de um jeito divertido!</p>
+  </div>
+  <div class="game-cards">
+    <div class="game-card quiz-card" onclick="startQuiz()">
+      <span class="game-card-icon">🧠</span>
+      <h2 class="game-card-title">Quiz Bíblico</h2>
+      <p class="game-card-desc">Responda perguntas sobre a Bíblia e ganhe estrelinhas! Quantas você consegue acertar?</p>
+      <button class="game-card-btn">Jogar agora!</button>
+    </div>
+    <div class="game-card verse-card" onclick="startVerse()">
+      <span class="game-card-icon">📖</span>
+      <h2 class="game-card-title">Complete o Versículo</h2>
+      <p class="game-card-desc">Descubra a palavra que falta nos versículos da Bíblia. Você sabe de cor?</p>
+      <button class="game-card-btn">Jogar agora!</button>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="quizScreen">
+  <div class="quiz-header">
+    <button class="back-btn" onclick="goHome()">
+      <svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg>
+      Voltar
+    </button>
+    <div class="quiz-progress-wrap">
+      <div class="quiz-progress-label">
+        <span id="qProgressLabel">Pergunta 1 de 10</span>
+        <span id="qCorrectCount">✅ 0 certas</span>
+      </div>
+      <div class="quiz-progress-bar">
+        <div class="quiz-progress-fill" id="qProgressFill" style="width:10%"></div>
+      </div>
+    </div>
+    <div class="quiz-stars-display">⭐ <span id="qStars">0</span></div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-num" id="qNum">Pergunta 1</div>
+    <div class="quiz-question" id="qQuestion"></div>
+    <div class="quiz-options" id="qOptions"></div>
+    <div class="quiz-feedback" id="qFeedback"></div>
+    <button class="quiz-next-btn" id="qNextBtn" onclick="nextQuiz()">Próxima pergunta ➜</button>
+  </div>
+</div>
+
+<!-- VERSÍCULO -->
+<div id="verseScreen">
+  <div class="verse-header">
+    <button class="back-btn" onclick="goHome()">
+      <svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg>
+      Voltar
+    </button>
+    <div class="quiz-progress-wrap">
+      <div class="quiz-progress-label">
+        <span id="vProgressLabel">Versículo 1 de 10</span>
+        <span id="vCorrectCount">✅ 0 certos</span>
+      </div>
+      <div class="quiz-progress-bar">
+        <div class="quiz-progress-fill" id="vProgressFill" style="width:10%;background:linear-gradient(90deg,var(--green),var(--blue))"></div>
+      </div>
+    </div>
+    <div class="quiz-stars-display" style="border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.1)">⭐ <span id="vStars">0</span></div>
+  </div>
+  <div class="verse-box">
+    <div class="verse-num" id="vNum">Versículo 1</div>
+    <div class="verse-ref" id="vRef"></div>
+    <div class="verse-text" id="vText"></div>
+    <div class="verse-options" id="vOptions"></div>
+    <div class="verse-feedback" id="vFeedback"></div>
+    <button class="verse-next-btn" id="vNextBtn" onclick="nextVerse()">Próximo versículo ➜</button>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="resultScreen">
+  <div class="result-icon" id="resultIcon">🏆</div>
+  <h2 class="result-title" id="resultTitle">Incrível!</h2>
+  <p class="result-sub" id="resultSub"></p>
+  <div class="stars-earned" id="starsEarned"></div>
+  <div class="result-score">
+    <div class="result-score-num" id="resultScore"></div>
+    <div class="result-score-label">acertos</div>
+  </div>
+  <p class="result-msg" id="resultMsg"></p>
+  <div class="result-btns">
+    <button class="btn-play-again" id="playAgainBtn">🔄 Jogar de novo</button>
+    <button class="btn-back-home" onclick="goHome()">🏠 Início</button>
+  </div>
+</div>
+
+<script>
+// ── STARS BACKGROUND ──
+const starsContainer = document.getElementById('starsBg');
+for(let i=0;i<80;i++){
+  const s=document.createElement('div');
+  s.className='star';
+  const size=Math.random()*3+1;
+  s.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:${Math.random()*4}s;opacity:${Math.random()*.5+.1}`;
+  starsContainer.appendChild(s);
+}
+
+// ── TOTAL STARS ──
+let totalStars = 0;
+function addStars(n){ totalStars+=n; document.getElementById('topStars').textContent=`⭐ ${totalStars}`; }
+
+// ── SHOW/HIDE ──
+function showOnly(id){
+  ['homeScreen','quizScreen','verseScreen','resultScreen'].forEach(s=>{
+    document.getElementById(s).style.display = s===id ? 'block' : 'none';
+  });
+}
+function goHome(){ showOnly('homeScreen'); }
+
+// ══════════════════════════════════
+// QUIZ DATA
+// ══════════════════════════════════
+const ALL_QUIZ = [
+  {q:"Quem foi engolido por um grande peixe?",opts:["Jonas","Davi","Moisés","Elias"],a:0,fun:"Jonas ficou 3 dias dentro do peixe! 🐟"},
+  {q:"Quem construiu uma grande arca para salvar os animais?",opts:["Abraão","Noé","Salomão","Josué"],a:1,fun:"Noé colocou dois de cada animal na arca! 🚢"},
+  {q:"Quem matou o gigante Golias com uma pedrinha?",opts:["Sansão","Pedro","Davi","Moisés"],a:2,fun:"Davi usou um estilingue — e acertou na primeira! 🪨"},
+  {q:"Quem foi jogado na cova dos leões e saiu ileso?",opts:["Daniel","Paulo","João","Elias"],a:0,fun:"Deus fechou a boca dos leões para salvar Daniel! 🦁"},
+  {q:"Onde nasceu Jesus?",opts:["Nazaré","Jerusalém","Belém","Jericó"],a:2,fun:"Jesus nasceu em Belém, numa manjedoura! 🌟"},
+  {q:"Quantos dias e noites choveu no tempo de Noé?",opts:["7 dias","40 dias","100 dias","365 dias"],a:1,fun:"Choveu 40 dias e 40 noites! ☔"},
+  {q:"Quem foi a mãe de Jesus?",opts:["Sara","Marta","Rute","Maria"],a:3,fun:"Maria foi escolhida por Deus para ser a mãe de Jesus! 💙"},
+  {q:"Quantos apóstolos Jesus escolheu?",opts:["7","10","12","15"],a:2,fun:"Jesus escolheu 12 apóstolos! ✝️"},
+  {q:"O que Deus criou no primeiro dia?",opts:["Os pássaros","A luz","Os peixes","As plantas"],a:1,fun:"'Haja luz!' — e a luz apareceu! ✨"},
+  {q:"Quem foi engolido por um leão e sobreviveu?",opts:["Ninguém","Davi de criança","Daniel","Sansão"],a:2,fun:"Daniel sobreviveu porque confiava em Deus! 🙏"},
+  {q:"Qual foi o nome do primeiro homem criado por Deus?",opts:["Abel","Adão","Sete","Noé"],a:1,fun:"Adão foi formado do pó da terra por Deus! 🌿"},
+  {q:"Em quantos dias Jesus ressuscitou?",opts:["1 dia","2 dias","3 dias","7 dias"],a:2,fun:"No terceiro dia Jesus ressuscitou — Aleluia! 🌅"},
+  {q:"Quem dividiu o mar ao meio?",opts:["Josué","Elias","Salomão","Moisés"],a:3,fun:"Moisés levantou o cajado e o mar se abriu! 🌊"},
+  {q:"Qual animal falou com Eva no jardim do Éden?",opts:["O leão","A serpente","O pombo","O burro"],a:1,fun:"A serpente enganou Eva no jardim! 🐍"},
+  {q:"Quem escreveu a maioria dos Salmos?",opts:["Moisés","Salomão","Davi","Paulo"],a:2,fun:"Davi escreveu mais de 70 salmos cantando para Deus! 🎶"},
+];
+
+// ══════════════════════════════════
+// VERSE DATA
+// ══════════════════════════════════
+const ALL_VERSES = [
+  {ref:"João 3:16",before:"Porque Deus amou o mundo de tal maneira que deu o seu",blank:"Filho",after:"unigênito...",opts:["Filho","Anjo","Amigo","Servo"],fun:"Este é o versículo mais famoso da Bíblia! ❤️"},
+  {ref:"Salmo 23:1",before:"O Senhor é o meu",blank:"pastor",after:", nada me faltará.",opts:["pastor","rei","pai","mestre"],fun:"Deus cuida de nós como um pastor cuida das ovelhas! 🐑"},
+  {ref:"Filipenses 4:13",before:"Tudo posso naquele que me",blank:"fortalece",after:".",opts:["fortalece","ajuda","ensina","alegra"],fun:"Com Deus, nada é impossível para nós! 💪"},
+  {ref:"Êxodo 20:12",before:"Honra teu pai e tua",blank:"mãe",after:", para que se prolonguem os teus dias.",opts:["mãe","família","irmão","casa"],fun:"Este é um dos Dez Mandamentos de Deus! 👨‍👩‍👧"},
+  {ref:"Provérbios 3:5",before:"Confia no Senhor de todo o teu",blank:"coração",after:"...",opts:["coração","ser","espírito","amor"],fun:"Deus quer que confiemos nEle completamente! 💛"},
+  {ref:"Mateus 22:37",before:"Amarás o Senhor teu Deus de todo o teu",blank:"coração",after:", e de toda a tua alma...",opts:["coração","tempo","jeito","esforço"],fun:"Amar a Deus é o maior mandamento! 🌟"},
+  {ref:"Salmo 119:105",before:"A tua palavra é",blank:"lâmpada",after:"para os meus pés...",opts:["lâmpada","guia","chave","força"],fun:"A Bíblia nos guia como uma luz no caminho! 🕯️"},
+  {ref:"Isaías 40:31",before:"Os que esperam no Senhor renovam as suas",blank:"forças",after:"...",opts:["forças","asas","vidas","almas"],fun:"Deus nos dá energia quando estamos cansados! 🦅"},
+  {ref:"Romanos 8:28",before:"Sabemos que todas as coisas cooperam para o",blank:"bem",after:"daqueles que amam a Deus.",opts:["bem","fim","amor","plano"],fun:"Deus transforma tudo em algo bom para quem O ama! 🌈"},
+  {ref:"1 João 4:8",before:"Deus é",blank:"amor",after:".",opts:["amor","luz","paz","rei"],fun:"A natureza de Deus é o amor puro! 💖"},
+  {ref:"Jeremias 29:11",before:"Porque eu sei os planos que tenho para",blank:"vocês",after:", planos de paz e não de calamidade...",opts:["vocês","mim","todos","sempre"],fun:"Deus tem planos maravilhosos para a sua vida! ✨"},
+  {ref:"Salmo 46:1",before:"Deus é o nosso",blank:"refúgio",after:"e força, socorro bem presente nas tribulações.",opts:["refúgio","escudo","castelo","lar"],fun:"Podemos correr para Deus em qualquer problema! 🏃"},
+];
+
+// ── SHUFFLE ──
+function shuffle(a){const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]]}return r}
+
+// ══════════════════════════════════
+// QUIZ LOGIC
+// ══════════════════════════════════
+let quizQuestions=[], quizIdx=0, quizCorrect=0, quizStars=0;
+
+function startQuiz(){
+  quizQuestions = shuffle(ALL_QUIZ).slice(0,10);
+  quizIdx=0; quizCorrect=0; quizStars=0;
+  document.getElementById('qStars').textContent='0';
+  document.getElementById('qCorrectCount').textContent='✅ 0 certas';
+  showOnly('quizScreen');
+  renderQuiz();
+}
+
+function renderQuiz(){
+  const q=quizQuestions[quizIdx];
+  const total=quizQuestions.length;
+  document.getElementById('qNum').textContent=`Pergunta ${quizIdx+1}`;
+  document.getElementById('qProgressLabel').textContent=`Pergunta ${quizIdx+1} de ${total}`;
+  document.getElementById('qProgressFill').style.width=`${((quizIdx+1)/total)*100}%`;
+  document.getElementById('qQuestion').textContent=q.q;
+  document.getElementById('qFeedback').className='quiz-feedback';
+  document.getElementById('qFeedback').style.display='none';
+  document.getElementById('qNextBtn').className='quiz-next-btn';
+
+  const opts=document.getElementById('qOptions');
+  opts.innerHTML='';
+  const shuffledOpts=shuffle(q.opts.map((o,i)=>({text:o,idx:i})));
+  shuffledOpts.forEach(o=>{
+    const btn=document.createElement('button');
+    btn.className='quiz-opt';
+    btn.textContent=o.text;
+    btn.onclick=()=>answerQuiz(o.idx===q.a, btn, q);
+    opts.appendChild(btn);
+  });
+}
+
+function answerQuiz(correct, btn, q){
+  document.querySelectorAll('.quiz-opt').forEach(b=>b.classList.add('disabled'));
+  const fb=document.getElementById('qFeedback');
+  if(correct){
+    btn.classList.add('correct');
+    quizCorrect++;
+    quizStars+=3;
+    document.getElementById('qStars').textContent=quizStars;
+    document.getElementById('qCorrectCount').textContent=`✅ ${quizCorrect} certas`;
+    fb.className='quiz-feedback correct-fb show';
+    fb.style.display='block';
+    fb.textContent=`✅ Correto! ${q.fun}`;
+    spawnConfetti();
+  } else {
+    btn.classList.add('wrong');
+    // Highlight correct
+    document.querySelectorAll('.quiz-opt').forEach(b=>{
+      if(b.textContent===q.opts[q.a]) b.classList.add('correct');
+    });
+    fb.className='quiz-feedback wrong-fb show';
+    fb.style.display='block';
+    fb.textContent=`❌ Quase! A resposta era: ${q.opts[q.a]}. ${q.fun}`;
+  }
+  const nb=document.getElementById('qNextBtn');
+  nb.className='quiz-next-btn show';
+  nb.textContent = quizIdx===quizQuestions.length-1 ? 'Ver resultado! 🎉' : 'Próxima pergunta ➜';
+}
+
+function nextQuiz(){
+  quizIdx++;
+  if(quizIdx>=quizQuestions.length){ showQuizResult(); return; }
+  renderQuiz();
+}
+
+function showQuizResult(){
+  addStars(quizStars);
+  showResult('quiz', quizCorrect, quizQuestions.length, quizStars, startQuiz);
+}
+
+// ══════════════════════════════════
+// VERSE LOGIC
+// ══════════════════════════════════
+let verseList=[], verseIdx=0, verseCorrect=0, verseStars=0;
+
+function startVerse(){
+  verseList=shuffle(ALL_VERSES).slice(0,10);
+  verseIdx=0; verseCorrect=0; verseStars=0;
+  document.getElementById('vStars').textContent='0';
+  document.getElementById('vCorrectCount').textContent='✅ 0 certos';
+  showOnly('verseScreen');
+  renderVerse();
+}
+
+function renderVerse(){
+  const v=verseList[verseIdx];
+  const total=verseList.length;
+  document.getElementById('vNum').textContent=`Versículo ${verseIdx+1}`;
+  document.getElementById('vRef').textContent=`📖 ${v.ref}`;
+  document.getElementById('vProgressLabel').textContent=`Versículo ${verseIdx+1} de ${total}`;
+  document.getElementById('vProgressFill').style.width=`${((verseIdx+1)/total)*100}%`;
+  document.getElementById('vText').innerHTML=`"${v.before} <span class="verse-blank" id="vBlank">___?___</span> ${v.after}"`;
+  document.getElementById('vFeedback').className='verse-feedback';
+  document.getElementById('vFeedback').style.display='none';
+  document.getElementById('vNextBtn').className='verse-next-btn';
+
+  const opts=document.getElementById('vOptions');
+  opts.innerHTML='';
+  shuffle(v.opts).forEach(o=>{
+    const btn=document.createElement('button');
+    btn.className='verse-opt';
+    btn.textContent=o;
+    btn.onclick=()=>answerVerse(o===v.blank, o, btn, v);
+    opts.appendChild(btn);
+  });
+}
+
+function answerVerse(correct, chosen, btn, v){
+  document.querySelectorAll('.verse-opt').forEach(b=>b.classList.add('disabled'));
+  const blank=document.getElementById('vBlank');
+  const fb=document.getElementById('vFeedback');
+  blank.textContent=chosen;
+  if(correct){
+    btn.classList.add('correct');
+    blank.classList.add('correct-blank');
+    verseCorrect++;
+    verseStars+=3;
+    document.getElementById('vStars').textContent=verseStars;
+    document.getElementById('vCorrectCount').textContent=`✅ ${verseCorrect} certos`;
+    fb.className='verse-feedback correct-fb show';
+    fb.style.display='block';
+    fb.textContent=`✅ Correto! ${v.fun}`;
+    spawnConfetti();
+  } else {
+    btn.classList.add('wrong');
+    blank.classList.add('wrong-blank');
+    document.querySelectorAll('.verse-opt').forEach(b=>{if(b.textContent===v.blank)b.classList.add('correct');});
+    fb.className='verse-feedback wrong-fb show';
+    fb.style.display='block';
+    fb.textContent=`❌ A palavra certa era: "${v.blank}". ${v.fun}`;
+  }
+  const nb=document.getElementById('vNextBtn');
+  nb.className='verse-next-btn show';
+  nb.textContent = verseIdx===verseList.length-1 ? 'Ver resultado! 🎉' : 'Próximo versículo ➜';
+}
+
+function nextVerse(){
+  verseIdx++;
+  if(verseIdx>=verseList.length){ showVerseResult(); return; }
+  renderVerse();
+}
+
+function showVerseResult(){
+  addStars(verseStars);
+  showResult('verse', verseCorrect, verseList.length, verseStars, startVerse);
+}
+
+// ══════════════════════════════════
+// RESULT
+// ══════════════════════════════════
+function showResult(type, correct, total, stars, replayFn){
+  showOnly('resultScreen');
+  const pct=correct/total;
+  let icon,title,msg;
+  if(pct===1){icon='🏆';title='Perfeito!';msg='Você acertou tudo! Você é um expert da Bíblia! Deus deve estar muito orgulhoso de você! 🌟';}
+  else if(pct>=.8){icon='🌟';title='Incrível!';msg='Você foi muito bem! Continue estudando a Bíblia e na próxima você acerta tudo! 📖';}
+  else if(pct>=.6){icon='😊';title='Muito bem!';msg='Bom trabalho! Que tal ler mais a Bíblia? Cada versículo é uma aventura! ✨';}
+  else if(pct>=.4){icon='💪';title='Continue assim!';msg='Não desista! Cada vez que você jogar vai aprender mais. A Bíblia tem histórias incríveis! 🌈';}
+  else{icon='📖';title='Vamos estudar!';msg='Que tal ler a Bíblia hoje? Deus tem histórias incríveis esperando por você! Continue tentando! 🙏';}
+  document.getElementById('resultIcon').textContent=icon;
+  document.getElementById('resultTitle').textContent=title;
+  document.getElementById('resultSub').textContent=type==='quiz'?'Quiz Bíblico':'Complete o Versículo';
+  document.getElementById('resultScore').textContent=`${correct}/${total}`;
+  document.getElementById('resultMsg').textContent=msg;
+
+  // Stars display
+  const starsEl=document.getElementById('starsEarned');
+  const fullStars=Math.round(pct*5);
+  starsEl.innerHTML='';
+  for(let i=0;i<5;i++){
+    const s=document.createElement('span');
+    s.textContent=i<fullStars?'⭐':'☆';
+    s.style.setProperty('animation-delay',`${i*.12}s`);
+    starsEl.appendChild(s);
+  }
+
+  document.getElementById('playAgainBtn').onclick=replayFn;
+  if(pct===1) setTimeout(()=>spawnConfetti(60),300);
+}
+
+// ── CONFETTI ──
+function spawnConfetti(count=20){
+  const colors=['#C9A84C','#7C3AED','#EC4899','#10B981','#3B82F6','#F59E0B','#fff'];
+  for(let i=0;i<count;i++){
+    const c=document.createElement('div');
+    c.className='confetti-piece';
+    c.style.cssText=`
+      left:${Math.random()*100}vw;
+      top:-10px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      width:${6+Math.random()*8}px;
+      height:${6+Math.random()*8}px;
+      animation-duration:${1.5+Math.random()*1.5}s;
+      animation-delay:${Math.random()*.5}s;
+      border-radius:${Math.random()>.5?'50%':'2px'}`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3000);
+  }
+}
+
+// Init
+showOnly('homeScreen');
+</script>
+</body>
+</html>
