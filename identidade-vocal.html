@@ -38,9 +38,19 @@ body{background:var(--dark);color:var(--text);font-family:var(--ff-body);font-we
 .tb-logo{display:flex;align-items:center;text-decoration:none;transition:opacity .25s}
 .tb-logo:hover{opacity:.75}
 .tb-logo img{height:38px;width:auto;display:block;filter:brightness(1.05)}
-nav{display:flex;align-items:center;gap:2rem}
-nav a{font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .2s;padding:4px 0;border-bottom:1px solid transparent}
+nav{display:flex;align-items:center;gap:1.5rem}
+nav a{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .2s;padding:4px 0;border-bottom:1px solid transparent;white-space:nowrap}
 nav a:hover,nav a.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* DROPDOWN EXTRAS */
+.tb-extras{position:relative}
+.tb-extras-btn{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);padding:.35rem .9rem;cursor:pointer;font-family:var(--ff-body);transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:.4rem}
+.tb-extras-btn:hover{background:rgba(201,168,76,.18);border-color:var(--gold)}
+.tb-extras-dropdown{position:absolute;top:calc(100% + .6rem);right:0;background:rgba(10,10,10,.98);border:1px solid rgba(201,168,76,.2);min-width:160px;display:none;flex-direction:column;z-index:200;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.tb-extras-dropdown.open{display:flex}
+.tb-extras-dropdown a{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;padding:.85rem 1.2rem;transition:all .2s;border-bottom:1px solid rgba(201,168,76,.08);display:flex;align-items:center;gap:.6rem}
+.tb-extras-dropdown a:last-child{border-bottom:none}
+.tb-extras-dropdown a:hover{color:var(--gold);background:rgba(201,168,76,.06);padding-left:1.5rem}
 .tb-socials{display:flex;gap:.9rem;align-items:center}
 .tb-socials a{color:var(--text-dim);text-decoration:none;transition:color .2s;display:flex;align-items:center}
 .tb-socials a:hover{color:var(--gold)}
@@ -276,9 +286,14 @@ footer{background:var(--dark2);border-top:1px solid rgba(201,168,76,.1);padding:
       <a href="#agenda">Agenda</a>
       <a href="#sonho">Sonho</a>
       <a href="#contato">Contato</a>
-      <a href="jogo-memoria.html" style="color:var(--gold);border-bottom-color:transparent" title="Jogo da Memória">✦ Divirta-se</a>
-      <a href="kids.html" style="color:var(--pink, #EC4899);border-bottom-color:transparent" title="Área Kids">👶 Kids</a>
     </nav>
+    <div class="tb-extras" id="tbExtras">
+      <button class="tb-extras-btn" onclick="toggleExtras()">✦ Extras ▾</button>
+      <div class="tb-extras-dropdown" id="extrasDropdown">
+        <a href="jogo-memoria.html">🃏 Jogo da Memória</a>
+        <a href="kids.html">👶 Área Kids</a>
+      </div>
+    </div>
     <div class="tb-socials">
       <a href="https://instagram.com/grupoidentidadevocal" target="_blank" title="Instagram">
         <svg><use href="#icon-instagram"/></svg>
@@ -730,6 +745,17 @@ const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
 }, {threshold: .1, rootMargin: '0px 0px -60px 0px'});
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// EXTRAS DROPDOWN
+function toggleExtras(){
+  document.getElementById('extrasDropdown').classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  const extras = document.getElementById('tbExtras');
+  if(extras && !extras.contains(e.target)){
+    document.getElementById('extrasDropdown').classList.remove('open');
+  }
+});
 
 // MOBILE MENU
 function toggleMenu(){
