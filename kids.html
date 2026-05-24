@@ -1223,20 +1223,194 @@ const PZ_SCENES=[
    ]},
 ];
 
-let pzSceneIdx=0, pzGridSize=3, pzMoveCount=0, pzTimerInterval=null, pzSeconds=0, pzPlaced=0, pzDragSrcIdx=null, pzCellCorrect=[], previewVisible=true;
+// ═══════════════════════════════════
+// QUEBRA-CABEÇA COM FOTOS DO GRUPO
+// Quando as imagens estiverem prontas,
+// salve-as em: fotos-biblicas/
+// com os nomes exatos abaixo
+// ═══════════════════════════════════
+const PZ_PHOTO_SCENES=[
+  {
+    id:'moises-edvan',
+    name:'Edvan como Moisés',
+    icon:'🌊',
+    membro:'Edvan Lima',
+    historia:'Moisés abrindo o Mar Vermelho',
+    img:'fotos-biblicas/moises-edvan.jpg',
+    versículo:'"O Senhor é a minha força e o meu cântico." — Êxodo 15:2'
+  },
+  {
+    id:'noe-samuel',
+    name:'Samuel como Noé',
+    icon:'🚢',
+    membro:'Samuel Muller',
+    historia:'Noé na Arca com os animais',
+    img:'fotos-biblicas/noe-samuel.jpg',
+    versículo:'"Noé fez tudo como Deus lhe havia ordenado." — Gênesis 6:22'
+  },
+  {
+    id:'daniel-leonardo',
+    name:'Leonardo como Daniel',
+    icon:'🦁',
+    membro:'Leonardo Poloni',
+    historia:'Daniel na Cova dos Leões',
+    img:'fotos-biblicas/daniel-leonardo.jpg',
+    versículo:'"Meu Deus enviou o seu anjo e fechou a boca dos leões." — Daniel 6:22'
+  },
+  {
+    id:'davi-felipe',
+    name:'Felipe como Davi',
+    icon:'🪨',
+    membro:'Felipe Paixão',
+    historia:'Davi e o Gigante Golias',
+    img:'fotos-biblicas/davi-felipe.jpg',
+    versículo:'"O Senhor que me livrou das garras do leão..." — 1 Samuel 17:37'
+  },
+  {
+    id:'jonas-andre',
+    name:'Andre como Jonas',
+    icon:'🐳',
+    membro:'Andre Souza',
+    historia:'Jonas e o Grande Peixe',
+    img:'fotos-biblicas/jonas-andre.jpg',
+    versículo:'"Do fundo do abismo clamei, e Tu ouviste a minha voz." — Jonas 2:2'
+  },
+  {
+    id:'reis-deybson',
+    name:'Deybson como Rei Mago',
+    icon:'⭐',
+    membro:'Deybson Soares',
+    historia:'Os Reis Magos visitam Jesus',
+    img:'fotos-biblicas/reis-deybson.jpg',
+    versículo:'"Onde está o que nasceu rei dos judeus?" — Mateus 2:2'
+  },
+  {
+    id:'maria-othilia',
+    name:'Othilia como Maria',
+    icon:'👶',
+    membro:'Othilia Novais',
+    historia:'Maria e o Nascimento de Jesus',
+    img:'fotos-biblicas/maria-othilia.jpg',
+    versículo:'"Bem-aventurada és tu entre as mulheres." — Lucas 1:42'
+  },
+  {
+    id:'ester-ayla',
+    name:'Ayla como Ester',
+    icon:'👑',
+    membro:'Ayla Boneli',
+    historia:'A Rainha Ester salva seu povo',
+    img:'fotos-biblicas/ester-ayla.jpg',
+    versículo:'"Quem sabe se não foi para um momento como este..." — Ester 4:14'
+  },
+  {
+    id:'rute-gabriela',
+    name:'Gabriela como Rute',
+    icon:'🌾',
+    membro:'Gabriela Paixão',
+    historia:'Rute e sua fidelidade',
+    img:'fotos-biblicas/rute-gabriela.jpg',
+    versículo:'"Onde tu morreres, morrerei eu." — Rute 1:17'
+  },
+  {
+    id:'priscila-daniele',
+    name:'Daniele como Priscila',
+    icon:'✝️',
+    membro:'Daniele Souza',
+    historia:'Priscila ensinando a Palavra',
+    img:'fotos-biblicas/priscila-daniele.jpg',
+    versículo:'"Ela e Áqüila o explicaram mais exatamente o caminho de Deus." — Atos 18:26'
+  },
+  {
+    id:'maria-magdalena-cris',
+    name:'Cris como Maria Madalena',
+    icon:'🌹',
+    membro:'Cris Paixão',
+    historia:'Maria Madalena encontra Jesus ressurreto',
+    img:'fotos-biblicas/maria-magdalena-cris.jpg',
+    versículo:'"Jesus lhe disse: Maria! Ela se voltou e exclamou: Mestre!" — João 20:16'
+  },
+  {
+    id:'sara-marcia',
+    name:'Márcia como Sara',
+    icon:'😊',
+    membro:'Márcia Santos',
+    historia:'Sara ri ao ouvir a promessa de Deus',
+    img:'fotos-biblicas/sara-marcia.jpg',
+    versículo:'"Para Deus há alguma coisa impossível?" — Gênesis 18:14'
+  },
+  {
+    id:'debora-michele',
+    name:'Michele como Débora',
+    icon:'⚖️',
+    membro:'Michele Lopes',
+    historia:'Débora, a profetisa e juíza de Israel',
+    img:'fotos-biblicas/debora-michele.jpg',
+    versículo:'"Eu me levantei, uma mãe em Israel." — Juízes 5:7'
+  },
+  {
+    id:'alicia-anjo',
+    name:'Alicia como o Anjo Gabriel',
+    icon:'👼',
+    membro:'Alicia Paixão',
+    historia:'Gabriel anuncia o nascimento de Jesus',
+    img:'fotos-biblicas/gabriel-alicia.jpg',
+    versículo:'"Não temas, Maria, porque achaste graça diante de Deus." — Lucas 1:30'
+  },
+];
+
+// Verifica se a foto existe antes de mostrar no seletor
+async function checkImgExists(src){
+  return new Promise(res=>{const i=new Image();i.onload=()=>res(true);i.onerror=()=>res(false);i.src=src;});
+}
+
+let pzSceneIdx=0, pzGridSize=3, pzMoveCount=0, pzTimerInterval=null, pzSeconds=0, pzPlaced=0, pzDragSrcIdx=null, pzCellCorrect=[], previewVisible=true, pzUsePhoto=false;
 
 function startPuzzle(){
   showScreen('puzzleScreen');
-  // Build scene selector
-  const sel=document.getElementById('pzSceneSel');
-  sel.innerHTML=PZ_SCENES.map((s,i)=>`<div class="puzzle-scene-btn ${i===0?'active':''}" onclick="selectPzScene(${i},this)"><span class="psb-icon">${s.icon}</span><div class="psb-name">${s.name}</div></div>`).join('');
-  pzSceneIdx=0;
   document.getElementById('pzSetup').style.display='block';
   document.getElementById('pzGame').style.display='none';
+  pzSceneIdx=0; pzUsePhoto=false;
+  buildSceneSelector();
 }
 
-function selectPzScene(i,el){
+async function buildSceneSelector(){
+  const sel=document.getElementById('pzSceneSel');
+  // Always show SVG scenes
+  let html=PZ_SCENES.map((s,i)=>`
+    <div class="puzzle-scene-btn ${i===0?'active':''}" onclick="selectPzScene(${i},false,this)">
+      <span class="psb-icon">${s.icon}</span>
+      <div class="psb-name">${s.name}</div>
+    </div>`).join('');
+
+  // Check which photo scenes are available
+  let photoFound=false;
+  for(let i=0;i<PZ_PHOTO_SCENES.length;i++){
+    const exists=await checkImgExists(PZ_PHOTO_SCENES[i].img);
+    if(exists){
+      photoFound=true;
+      html+=`
+        <div class="puzzle-scene-btn pz-photo-btn" onclick="selectPzScene(${i},true,this)" style="border-color:rgba(245,158,11,.3);position:relative">
+          <span class="psb-icon">${PZ_PHOTO_SCENES[i].icon}</span>
+          <div class="psb-name">${PZ_PHOTO_SCENES[i].name}</div>
+          <div style="position:absolute;top:4px;right:4px;font-size:.55rem;background:var(--gold);color:#0a0a0a;padding:1px 5px;border-radius:99px;font-weight:700">NOVO</div>
+        </div>`;
+    }
+  }
+
+  if(!photoFound){
+    html+=`
+      <div style="grid-column:1/-1;background:rgba(245,158,11,.06);border:1px dashed rgba(245,158,11,.25);border-radius:12px;padding:1rem;text-align:center;font-size:.78rem;color:var(--text-dim);font-weight:600">
+        🌟 Em breve: quebra-cabeça com os membros do grupo em cenas bíblicas!<br>
+        <span style="font-size:.68rem;opacity:.7">Salve as imagens em <code style="color:var(--gold)">fotos-biblicas/</code> para ativar</span>
+      </div>`;
+  }
+
+  sel.innerHTML=html;
+}
+
+function selectPzScene(i,isPhoto,el){
   pzSceneIdx=i;
+  pzUsePhoto=isPhoto;
   document.querySelectorAll('.puzzle-scene-btn').forEach(b=>b.classList.remove('active'));
   el.classList.add('active');
 }
@@ -1282,7 +1456,7 @@ function buildFullSVG(scene, w, h){
 }
 
 function launchPuzzle(){
-  const scene=PZ_SCENES[pzSceneIdx];
+  const scene = pzUsePhoto ? PZ_PHOTO_SCENES[pzSceneIdx] : PZ_SCENES[pzSceneIdx];
   pzMoveCount=0; pzSeconds=0; pzPlaced=0;
   document.getElementById('pzMoves').textContent='0';
   document.getElementById('pzLeft').textContent=pzGridSize*pzGridSize;
@@ -1303,15 +1477,13 @@ function launchPuzzle(){
   const total=pzGridSize;
   const boardEl=document.getElementById('pzBoard');
   const trayEl=document.getElementById('pzTray');
-  // Figure out cell size based on viewport
-  const maxW=Math.min(window.innerWidth-220, 420);
+  const maxW=Math.min(window.innerWidth-220,420);
   const cellSize=Math.floor(maxW/total);
   boardEl.style.gridTemplateColumns=`repeat(${total},${cellSize}px)`;
-  boardEl.innerHTML='';
-  trayEl.innerHTML='';
+  boardEl.innerHTML=''; trayEl.innerHTML='';
   pzCellCorrect=Array(total*total).fill(false);
 
-  // Build board cells (empty)
+  // Board empty cells
   for(let r=0;r<total;r++) for(let c=0;c<total;c++){
     const idx=r*total+c;
     const cell=document.createElement('div');
@@ -1321,12 +1493,11 @@ function launchPuzzle(){
     cell.addEventListener('dragover',e=>{e.preventDefault();cell.classList.add('drag-over');});
     cell.addEventListener('dragleave',()=>cell.classList.remove('drag-over'));
     cell.addEventListener('drop',e=>{e.preventDefault();cell.classList.remove('drag-over');dropOnCell(cell);});
-    // Touch
     cell.addEventListener('touchend',e=>{e.preventDefault();dropOnCell(cell);},{passive:false});
     boardEl.appendChild(cell);
   }
 
-  // Build shuffled pieces for tray
+  // Shuffled tray pieces
   const order=shuffle([...Array(total*total).keys()]);
   order.forEach(idx=>{
     const r=Math.floor(idx/total), c=idx%total;
@@ -1335,11 +1506,21 @@ function launchPuzzle(){
     piece.dataset.idx=idx; piece.dataset.r=r; piece.dataset.c=c;
     piece.style.width=cellSize+'px'; piece.style.height=cellSize+'px';
     piece.draggable=true;
-    const svg=buildSceneSVG(scene,cellSize,cellSize,'',r,c,total);
-    piece.appendChild(svg);
+
+    if(pzUsePhoto){
+      // Photo piece using background-position
+      const totalPx=cellSize*total;
+      piece.style.backgroundImage=`url('${scene.img}')`;
+      piece.style.backgroundSize=`${totalPx}px ${totalPx}px`;
+      piece.style.backgroundPosition=`-${c*cellSize}px -${r*cellSize}px`;
+      piece.style.backgroundRepeat='no-repeat';
+    } else {
+      const svg=buildSceneSVG(scene,cellSize,cellSize,'',r,c,total);
+      piece.appendChild(svg);
+    }
+
     piece.addEventListener('dragstart',e=>{pzDragSrcIdx=idx;piece.classList.add('dragging');e.dataTransfer.effectAllowed='move';});
     piece.addEventListener('dragend',()=>piece.classList.remove('dragging'));
-    // Touch drag
     piece.addEventListener('touchstart',e=>{pzDragSrcIdx=idx;},{passive:true});
     trayEl.appendChild(piece);
   });
@@ -1347,8 +1528,19 @@ function launchPuzzle(){
   // Preview
   const prevEl=document.getElementById('pzPreview');
   prevEl.innerHTML='';
-  const prevSvg=buildFullSVG(scene,140,100);
-  prevEl.appendChild(prevSvg);
+  if(pzUsePhoto){
+    const img=document.createElement('img');
+    img.src=scene.img; img.style.cssText='width:140px;height:auto;display:block;border-radius:8px';
+    prevEl.appendChild(img);
+    // Show member info
+    const info=document.createElement('div');
+    info.style.cssText='font-size:.68rem;color:var(--text-muted);font-weight:700;margin-top:.4rem;text-align:center;line-height:1.4';
+    info.innerHTML=`<span style="color:var(--gold)">${scene.membro}</span><br><em style="font-size:.62rem;color:var(--text-dim)">${scene.historia}</em>`;
+    prevEl.appendChild(info);
+  } else {
+    const prevSvg=buildFullSVG(scene,140,100);
+    prevEl.appendChild(prevSvg);
+  }
   previewVisible=true;
 }
 
@@ -1356,41 +1548,48 @@ function dropOnCell(cell){
   if(pzDragSrcIdx===null) return;
   const cellIdx=parseInt(cell.dataset.idx);
   const pieceIdx=pzDragSrcIdx;
-  if(pzCellCorrect[cellIdx]) return; // already correct piece placed
+  if(pzCellCorrect[cellIdx]) return;
 
   const total=pzGridSize;
   const pieceR=Math.floor(pieceIdx/total), pieceC=pieceIdx%total;
   const cellR=parseInt(cell.dataset.r), cellC=parseInt(cell.dataset.c);
+  const isCorrect=(pieceR===cellR && pieceC===cellC);
+  const scene=pzUsePhoto ? PZ_PHOTO_SCENES[pzSceneIdx] : PZ_SCENES[pzSceneIdx];
+  const maxW=Math.min(window.innerWidth-220,420);
+  const cellSize=Math.floor(maxW/total);
 
   pzMoveCount++;
   document.getElementById('pzMoves').textContent=pzMoveCount;
 
-  const isCorrect=(pieceR===cellR && pieceC===cellC);
-
-  // Place visual in cell
-  const scene=PZ_SCENES[pzSceneIdx];
-  const maxW=Math.min(window.innerWidth-220,420);
-  const cellSize=Math.floor(maxW/total);
   cell.innerHTML='';
-  const svg=buildSceneSVG(scene,cellSize,cellSize,'',pieceR,pieceC,total);
-  cell.appendChild(svg);
+  if(pzUsePhoto){
+    const totalPx=cellSize*total;
+    cell.style.backgroundImage=`url('${scene.img}')`;
+    cell.style.backgroundSize=`${totalPx}px ${totalPx}px`;
+    cell.style.backgroundPosition=`-${pieceC*cellSize}px -${pieceR*cellSize}px`;
+    cell.style.backgroundRepeat='no-repeat';
+  } else {
+    const svg=buildSceneSVG(scene,cellSize,cellSize,'',pieceR,pieceC,total);
+    cell.appendChild(svg);
+  }
 
   if(isCorrect){
     cell.classList.add('correct-piece');
     pzCellCorrect[cellIdx]=true;
     pzPlaced++;
-    const remaining=total*total-pzPlaced;
-    document.getElementById('pzLeft').textContent=remaining;
-    // Hide piece from tray
+    document.getElementById('pzLeft').textContent=total*total-pzPlaced;
     document.querySelectorAll('.puzzle-piece').forEach(p=>{
       if(parseInt(p.dataset.idx)===pieceIdx) p.classList.add('placed');
     });
     confetti(8);
     if(pzPlaced===total*total) setTimeout(showPzWin,400);
   } else {
-    // Wrong — flash red then remove
     cell.style.background='rgba(239,68,68,.2)';
-    setTimeout(()=>{cell.style.background='';cell.innerHTML='';},600);
+    setTimeout(()=>{
+      cell.style.background='';
+      cell.style.backgroundImage='';
+      cell.innerHTML='';
+    },600);
   }
   pzDragSrcIdx=null;
 }
